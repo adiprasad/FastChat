@@ -10,9 +10,9 @@ num_gpus_total=$6
 max_gpu_memory=$7
 dtype=$8
 answer_dir_root=$9
-judge_model=$10
-baseline_model=$11
-mode=$12
+judge_model=${10}
+baseline_model=${11}
+mode=${12}
 
 cd fastchat/llm_judge
 
