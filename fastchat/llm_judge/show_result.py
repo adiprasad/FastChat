@@ -26,15 +26,18 @@ def display_result_single(args):
     print("\n########## First turn ##########")
     df_1 = df[df["turn"] == 1].groupby(["model", "turn"]).mean()
     print(df_1.sort_values(by="score", ascending=False))
+    df_1.to_json(os.path.join(args.answer_dir_root, args.bench_name, f"{args.judge_model}_results_turn_one.json"), indent=4)
 
     if args.bench_name == "mt_bench":
         print("\n########## Second turn ##########")
         df_2 = df[df["turn"] == 2].groupby(["model", "turn"]).mean()
         print(df_2.sort_values(by="score", ascending=False))
+        df_2.to_json(os.path.join(args.answer_dir_root, args.bench_name, f"{args.judge_model}_results_turn_two.json"), indent=4)
 
         print("\n########## Average ##########")
         df_3 = df[["model", "score"]].groupby(["model"]).mean()
         print(df_3.sort_values(by="score", ascending=False))
+        df_3.to_json(os.path.join(args.answer_dir_root, args.bench_name, f"{args.judge_model}_results_average.json"), indent=4)
 
 
 def display_result_pairwise(args):
@@ -91,6 +94,7 @@ def display_result_pairwise(args):
     # print(df.sort_values(by="win_rate", ascending=False))
     # print(df.sort_values(by="loss_rate", ascending=True))
     print(df.sort_values(by="win_rate_adjusted", ascending=False))
+    df.to_json(os.path.join(args.results_out_dir, args.bench_name, f"{args.judge_model}_results_pairwise.json"), indent=4)
 
 
 if __name__ == "__main__":
