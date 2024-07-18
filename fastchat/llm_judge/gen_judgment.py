@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 
 import numpy as np
+import os
 from tqdm import tqdm
 
 from fastchat.llm_judge.common import (
@@ -207,10 +208,16 @@ if __name__ == "__main__":
     parser.add_argument(
         "--first-n", type=int, help="A debug option. Only run the first `n` judgments."
     )
+    parser.add_argument(
+        "--answer-dir-root",
+        type=str,
+        help="Directory inside which model answers are stored",
+    )
     args = parser.parse_args()
 
     question_file = f"data/{args.bench_name}/question.jsonl"
-    answer_dir = f"data/{args.bench_name}/model_answer"
+    #answer_dir = f"data/{args.bench_name}/model_answer"
+    answer_dir = os.path.join(args.answer_dir_root, f"{args.bench_name}/model_answer")
     ref_answer_dir = f"data/{args.bench_name}/reference_answer"
 
     # Load questions
@@ -234,16 +241,22 @@ if __name__ == "__main__":
     if args.mode == "single":
         judges = make_judge_single(args.judge_model, judge_prompts)
         play_a_match_func = play_a_match_single
+        # output_file = (
+        #     f"data/{args.bench_name}/model_judgment/{args.judge_model}_single.jsonl"
+        # )
         output_file = (
-            f"data/{args.bench_name}/model_judgment/{args.judge_model}_single.jsonl"
+            os.path.join(args.answer_dir_root, f"{args.bench_name}/model_judgment/{args.judge_model}_single.jsonl")
         )
         make_match_func = make_match_single
         baseline_model = None
     else:
         judges = make_judge_pairwise(args.judge_model, judge_prompts)
         play_a_match_func = play_a_match_pair
+        # output_file = (
+        #     f"data/{args.bench_name}/model_judgment/{args.judge_model}_pair.jsonl"
+        # )
         output_file = (
-            f"data/{args.bench_name}/model_judgment/{args.judge_model}_pair.jsonl"
+            os.path.join(args.answer_dir_root, f"{args.bench_name}/model_judgment/{args.judge_model}_pair.jsonl")
         )
         if args.mode == "pairwise-all":
             make_match_func = make_match_all_pairs

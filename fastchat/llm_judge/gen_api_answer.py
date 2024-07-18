@@ -114,6 +114,12 @@ if __name__ == "__main__":
         "--parallel", type=int, default=1, help="The number of concurrent API calls."
     )
     parser.add_argument("--openai-api-base", type=str, default=None)
+    parser.add_argument(
+        "--answer-dir-root",
+        type=str,
+        help="Directory inside which model answers are stored",
+    )
+
     args = parser.parse_args()
 
     if args.openai_api_base is not None:
@@ -125,7 +131,9 @@ if __name__ == "__main__":
     if args.answer_file:
         answer_file = args.answer_file
     else:
-        answer_file = f"data/{args.bench_name}/model_answer/{args.model}.jsonl"
+        #answer_file = f"data/{args.bench_name}/model_answer/{args.model}.jsonl"
+        answer_file = os.path.join(args.answer_dir_root, f"{args.bench_name}/model_answer/{args.model_id}.jsonl") 
+        
     print(f"Output to {answer_file}")
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as executor:

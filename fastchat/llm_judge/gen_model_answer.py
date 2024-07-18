@@ -6,6 +6,7 @@ python3 gen_model_answer.py --model-path lmsys/fastchat-t5-3b-v1.0 --model-id fa
 import argparse
 import json
 import os
+from pathlib import Path
 import random
 import time
 
@@ -269,6 +270,11 @@ if __name__ == "__main__":
         default="main",
         help="The model revision to load.",
     )
+    parser.add_argument(
+        "--answer-dir-root",
+        type=str,
+        help="Directory inside which model answers are stored",
+    )
 
     args = parser.parse_args()
 
@@ -281,7 +287,8 @@ if __name__ == "__main__":
     if args.answer_file:
         answer_file = args.answer_file
     else:
-        answer_file = f"data/{args.bench_name}/model_answer/{args.model_id}.jsonl"
+        #answer_file = f"data/{args.bench_name}/model_answer/{args.model_id}.jsonl"
+        answer_file = os.path.join(args.answer_dir_root, f"{args.bench_name}/model_answer/{args.model_id}.jsonl")
 
     print(f"Output to {answer_file}")
 
