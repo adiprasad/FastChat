@@ -3,16 +3,16 @@
 model_path=$1
 model_id=$2
 bench_name="mt_bench"
-max_new_tokens=$4
-num_choices=$5
-num_gpus_per_model=$6
-num_gpus_total=$7
-max_gpu_memory=$8
-dtype=$9
-answer_dir_root=$10
-judge_model=$11
-baseline_model=$12
-mode=$13
+max_new_tokens=$3
+num_choices=$4
+num_gpus_per_model=$5
+num_gpus_total=$6
+max_gpu_memory=$7
+dtype=$8
+answer_dir_root=$9
+judge_model=$10
+baseline_model=$11
+mode=$12
 
 cd fastchat/llm_judge
 
